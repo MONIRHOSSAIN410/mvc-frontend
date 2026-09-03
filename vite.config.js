@@ -19,14 +19,16 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
+      // In development the browser calls /api and Vite forwards it to the
+      // real backend. Going through the proxy keeps it same-origin, so the
+      // browser never blocks the answer on CORS grounds.
+      //
+      // Point this at http://localhost:5000 instead when you are running the
+      // backend on your own machine.
       "/api": {
-<<<<<<< HEAD
-        target: "http://localhost:5000",
-=======
-        target: "https://mvc-backend-b5wn.vercel.app", // Removed trailing slash
->>>>>>> 7ade7f6 (Change server port and fix proxy target URL)
+        target: "https://mvc-backend-b5wn.vercel.app",
         changeOrigin: true,
-        secure: false,
+        secure: true,
       },
     },
   },
