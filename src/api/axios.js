@@ -10,7 +10,7 @@ import { CATEGORIES, filterProducts, findProduct } from "../data/catalog.js";
  *   code change — set it in Vercel → Settings → Environment Variables and
  *   redeploy (Vite bakes the value in at build time).
  */
-const DEPLOYED_API = "https://mvc-backend-b5wn.vercel.app/api";
+const DEPLOYED_API = "https://mv-new-backend.vercel.app/api";
 
 const baseURL =
   import.meta.env.VITE_API_URL || (import.meta.env.PROD ? DEPLOYED_API : "/api");

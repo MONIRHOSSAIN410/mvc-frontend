@@ -124,7 +124,25 @@ const authSlice = createSlice({
   name: "auth",
   initialState: { user: loadUser(), loading: false, error: null },
   reducers: {
+    /**
+     * Signs out. The browser-only profile is deliberately kept: deleting it
+     * here meant that signing up, logging out and coming back left nothing to
+     * sign in with — "no account has been created in this browser yet".
+     * Use forgetLocalAccount to remove it on purpose.
+     */
     logout(state) {
+      state.user = null;
+      state.error = null;
+      try {
+        localStorage.removeItem(USER_KEY);
+        localStorage.removeItem(TOKEN_KEY);
+      } catch {
+        /* ignore */
+      }
+    },
+
+    /** Removes the browser-only profile as well as signing out. */
+    forgetLocalAccount(state) {
       state.user = null;
       state.error = null;
       try {
@@ -158,5 +176,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout, clearAuthError } = authSlice.actions;
+export const { logout, forgetLocalAccount, clearAuthError } = authSlice.actions;
 export default authSlice.reducer;
