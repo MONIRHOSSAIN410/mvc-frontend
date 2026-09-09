@@ -6,13 +6,13 @@ export default defineConfig(({ mode }) => {
 
   // Where /api goes during development.
   //
-  // Default: the deployed CookMe API, so the shop works without running
-  // anything else.
+  // Default: the backend on your own machine (npm run dev in the backend
+  // folder). That is the only way sign up, sign in and orders reach the
+  // MongoDB running on this computer.
   //
-  // To develop against the backend on your own machine (npm run dev in the
-  // backend folder), put this in .env:
-  //   VITE_PROXY_TARGET="http://localhost:5000"
-  const proxyTarget = env.VITE_PROXY_TARGET || "https://mv-new-backend.vercel.app";
+  // To develop against the deployed API instead, put this in .env:
+  //   VITE_PROXY_TARGET="https://mv-new-backend.vercel.app"
+  const proxyTarget = env.VITE_PROXY_TARGET || "http://localhost:5000";
 
   return {
     plugins: [react()],
