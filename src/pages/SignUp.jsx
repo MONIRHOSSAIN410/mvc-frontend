@@ -9,7 +9,7 @@ export default function SignUp() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", password: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((s) => s.auth);
+  const { loading, error, serverOffline } = useSelector((s) => s.auth);
 
   // A message left over from the other auth page is not about this form.
   useEffect(() => {
@@ -44,6 +44,19 @@ export default function SignUp() {
         >
           <h1 className="mb-1 text-center text-xl font-bold">Create account</h1>
           <p className="mb-6 text-center text-sm text-slate-500">Join us and start shopping.</p>
+
+          {serverOffline && (
+            <div className="mb-4 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm
+                            text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/40
+                            dark:text-amber-200">
+              <p className="font-semibold">Saved in this browser only</p>
+              <p className="mt-1">
+                The CookMe server did not answer, so nothing reached the database.
+                Start the backend (<code>npm run dev</code> in the backend folder) and
+                try again to save it for real.
+              </p>
+            </div>
+          )}
 
           {error && (
             <p className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-600 dark:bg-red-950/40">

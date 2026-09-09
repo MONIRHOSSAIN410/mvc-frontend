@@ -122,7 +122,14 @@ export const loginUser = createAsyncThunk(
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { user: loadUser(), loading: false, error: null },
+  initialState: {
+    user: loadUser(),
+    loading: false,
+    error: null,
+    // True when the last sign up / sign in never reached the server, so the
+    // page can say plainly that nothing was saved to the database.
+    serverOffline: false,
+  },
   reducers: {
     /**
      * Signs out. The browser-only profile is deliberately kept: deleting it
@@ -162,11 +169,14 @@ const authSlice = createSlice({
       b.addCase(thunk.pending, (s) => {
         s.loading = true;
         s.error = null;
+        s.serverOffline = false;
       })
         .addCase(thunk.fulfilled, (s, a) => {
           s.loading = false;
           s.error = null;
           s.user = a.payload;
+          // A profile marked `local` means the server was never reached.
+          s.serverOffline = Boolean(a.payload?.local);
         })
         .addCase(thunk.rejected, (s, a) => {
           s.loading = false;
